@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -67,5 +68,15 @@ public class EmpController {
 			responseStructure.setStatus(HttpStatus.BAD_REQUEST.value());
 			return new ResponseEntity<ResponseStructure<Employee>>(responseStructure, HttpStatus.BAD_REQUEST);
 		}	
+	}
+	
+	@PutMapping("/employee")
+	protected ResponseEntity<ResponseStructure<Employee>> updateEmp(@RequestBody Employee employee){
+		Employee updatedEmp=empService.addEmp(employee);
+		ResponseStructure<Employee> responseStructure=new ResponseStructure<>();
+		responseStructure.setMessage("Employee updated");
+		responseStructure.setData(updatedEmp);
+		responseStructure.setStatus(HttpStatus.OK.value());
+		return new ResponseEntity<ResponseStructure<Employee>>(responseStructure,HttpStatus.OK);
 	}
 }
