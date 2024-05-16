@@ -46,4 +46,21 @@ public class EmpService {
 		}
 	}
 
+	public Employee updateEmp(Employee employee) {
+		if (employee != null && employee.getId() != 0) {
+			Optional<Employee> optional = empRepo.findById(employee.getId());
+			if (optional.isPresent()) {
+				Employee existingEmployee = optional.get();
+				existingEmployee.setName(employee.getName());
+				existingEmployee.setEmail(employee.getEmail());
+				existingEmployee.setMobile(employee.getMobile());
+				existingEmployee.setAge(employee.getAge());
+				existingEmployee.setGender(employee.getGender());
+				existingEmployee.setDepartment(employee.getDepartment());
+				return empRepo.save(existingEmployee);
+			}
+		}
+		return null;
+	}
+
 }

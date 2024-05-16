@@ -5,20 +5,30 @@ const EmployeeList = () => {
     const [employees, setEmployees] = useState([])
 
     useEffect(() => {
-        axios.get("http://localhost:8080/employees")
-            .then(response => {
-                setEmployees(response.data);
-            })
-            .catch(error => {
-                console.log("Error fetching employees data:", error);
-            });
-    }, []);
+        const fetchEmployees = async () => {
+          try {
+            const response = await axios.get('http://localhost:8080/employee');
+            const responseData = response.data;
+            if (responseData.status === 200) {
+              setEmployees(responseData.data);
+            } else {
+              console.error('Error fetching employees:', responseData.message);
+            }
+          } catch (error) {
+            console.error('Error fetching employees:', error);
+          } 
+        };
+    
+        fetchEmployees();
+      }, []);
+
+
 
     return (
-        <div className="container my-4">
-            <h1 className="mb-4">Employee List</h1>
+        <div className="container">
+            <h1 className="my-4">Employee List</h1>
             <table className="table table-striped">
-                <thead className="thead-dark">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -30,17 +40,21 @@ const EmployeeList = () => {
                     </tr>
                 </thead>
                 <tbody>
-                    {employees.map((employee) => (
-                        <tr key={employee.id}>
-                            <td>{employee.id}</td>
-                            <td>{employee.name}</td>
-                            <td>{employee.mobile}</td>
-                            <td>{employee.email}</td>
-                            <td>{employee.age}</td>
-                            <td>{employee.gender}</td>
-                            <td>{employee.department}</td>
-                        </tr>
-                    ))}
+                    {
+                        employees.map((employee, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>{employee.id}</td>
+                                    <td>{employee.name}</td>
+                                    <td>{employee.mobile}</td>
+                                    <td>{employee.email}</td>
+                                    <td>{employee.age}</td>
+                                    <td>{employee.gender}</td>
+                                    <td>{employee.department}</td>
+                                </tr>
+                            );
+                        })
+                    }
                 </tbody>
             </table>
         </div>

@@ -36,47 +36,54 @@ public class EmpController {
 	}
 	
 //	@CrossOrigin(origins = "http://localhost:3000")
-	@GetMapping("/employees")
+	@GetMapping("/employee")
 	public ResponseEntity<ResponseStructure<List<Employee>>> findAllEmployees() {
 		List<Employee> employees = empService.findAllEmployees();
 		ResponseStructure<List<Employee>> responseStructure = new ResponseStructure<>();
 		if (employees != null) {
 			responseStructure.setMessage("Employees Found");
 			responseStructure.setData(employees);
-			responseStructure.setStatus(HttpStatus.FOUND.value());
-			return new ResponseEntity<ResponseStructure<List<Employee>>>(responseStructure, HttpStatus.FOUND);
+			responseStructure.setStatus(HttpStatus.OK.value());
+			return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 		} else {
 			responseStructure.setMessage("Employees Not Found");
-			responseStructure.setData(employees);
+			responseStructure.setData(null);
 			responseStructure.setStatus(HttpStatus.NOT_FOUND.value());
-			return new ResponseEntity<ResponseStructure<List<Employee>>>(responseStructure, HttpStatus.NOT_FOUND);
+			return new ResponseEntity<>(responseStructure, HttpStatus.NOT_FOUND);
 		}
 	}
 	
 	@DeleteMapping("/employee")
-	protected ResponseEntity<ResponseStructure<Employee>> deleteCar(@RequestParam(name = "id") Integer id){
-		Employee deletedCar = empService.deleteEmp(id);
+	protected ResponseEntity<ResponseStructure<Employee>> deleteEmployee(@RequestParam(name = "id") Integer id){
+		Employee deletedEmp = empService.deleteEmp(id);
 		ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
-		if(deletedCar != null) {
+		if(deletedEmp != null) {
 			responseStructure.setMessage("Employee deleted");
-			responseStructure.setData(deletedCar);
+			responseStructure.setData(deletedEmp);
 			responseStructure.setStatus(HttpStatus.OK.value());
-			return new ResponseEntity<ResponseStructure<Employee>>(responseStructure, HttpStatus.OK);
+			return new ResponseEntity<>(responseStructure, HttpStatus.OK);
 		}else {
 			responseStructure.setMessage("Employee not deleted");
-			responseStructure.setData(deletedCar);
+			responseStructure.setData(null);
 			responseStructure.setStatus(HttpStatus.BAD_REQUEST.value());
-			return new ResponseEntity<ResponseStructure<Employee>>(responseStructure, HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
 		}	
 	}
 	
 	@PutMapping("/employee")
 	protected ResponseEntity<ResponseStructure<Employee>> updateEmp(@RequestBody Employee employee){
-		Employee updatedEmp=empService.addEmp(employee);
-		ResponseStructure<Employee> responseStructure=new ResponseStructure<>();
-		responseStructure.setMessage("Employee updated");
-		responseStructure.setData(updatedEmp);
-		responseStructure.setStatus(HttpStatus.OK.value());
-		return new ResponseEntity<ResponseStructure<Employee>>(responseStructure,HttpStatus.OK);
+		Employee updatedEmp = empService.updateEmp(employee);
+		ResponseStructure<Employee> responseStructure = new ResponseStructure<>();
+		if(updatedEmp != null) {
+			responseStructure.setMessage("Employee updated");
+			responseStructure.setData(updatedEmp);
+			responseStructure.setStatus(HttpStatus.OK.value());
+			return new ResponseEntity<>(responseStructure, HttpStatus.OK);
+		}else {
+			responseStructure.setMessage("Employee not Found");
+			responseStructure.setData(null);
+			responseStructure.setStatus(HttpStatus.BAD_REQUEST.value());
+			return new ResponseEntity<>(responseStructure, HttpStatus.BAD_REQUEST);
+		}
 	}
 }
