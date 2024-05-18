@@ -1,6 +1,7 @@
 import React from 'react';
 import { Outlet, NavLink } from 'react-router-dom';
 import ems from './ems.png'; 
+import './Employee.css'
 
 export const NavBar = () => {
   return (

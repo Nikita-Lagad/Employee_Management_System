@@ -5,7 +5,7 @@ import { NavBar } from './NavBar';
 import EmployeeDelete from './EmployeeDelete';
 import EmployeeUpdate from './EmployeeUpdate';
 import EmployeeList from './EmployeeList';
-// import './Employee.css'
+import './Employee.css'
 
 export const Home = () => {
   return (
